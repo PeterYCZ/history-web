@@ -1,5 +1,6 @@
 package com.project.neo.history.controller;
 
+import com.project.neo.history.entity.PartnerRelationship;
 import com.project.neo.history.entity.Person;
 import com.project.neo.history.entity.PersonDetail;
 import com.project.neo.history.service.PersonRepository;
@@ -25,5 +26,11 @@ public class PersonController {
         return personRepository.inertPerson(name,birthyear,deathyear);
     }
 
+    @PostMapping("/api/v1/create/relationship/")
+    public PersonDetail createPartner(@RequestBody PartnerRelationship partnerRelationship){
+        String husband = partnerRelationship.getHusband();
+        String wife = partnerRelationship.getWife();
+        return personRepository.createPartner(husband,wife);
+    }
 
 }

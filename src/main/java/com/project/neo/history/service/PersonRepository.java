@@ -18,4 +18,9 @@ public interface PersonRepository extends Repository<Person, String> {
             " RETURN person")
     Person inertPerson(String name,Integer birthyear,Integer deathyear);
 
+    @Query("MATCH (husband:Person{name: $husband}),(wife:Person{name: $wife})\n" +
+            "CREATE (husband)-[:PARTNER]->(wife),(wife)-[:PARTNER]->(husband)\n" +
+            "return husband,collect (wife) as partner")
+    PersonDetail createPartner(String husband,String wife);
+
 }
