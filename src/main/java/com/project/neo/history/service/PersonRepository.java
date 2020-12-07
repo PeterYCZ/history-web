@@ -13,5 +13,9 @@ public interface PersonRepository extends Repository<Person, String> {
             + "collect (DISTINCT p) AS partner")
     PersonDetail getDetailsByName(String name);
 
+    @Query("CREATE (person:Person{name: $name," +
+            "birthyear:$birthyear,deathyear:$deathyear})\n" +
+            " RETURN person")
+    Person inertPerson(String name,Integer birthyear,Integer deathyear);
 
 }
