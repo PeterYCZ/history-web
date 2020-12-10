@@ -10,6 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 @RestController
 public class PersonController {
@@ -28,12 +32,11 @@ public class PersonController {
         String realName = file.getOriginalFilename();
         String fileName = realName;
         String filePath = "./picture/";
-        File portrait = new File(filePath + fileName);
-        try {
-            file.transferTo(portrait);
-            return filePath + fileName;
-        } catch (IOException e) {
+        File portrait = new File(filePath);
+        if(!portrait.exists()) {
+            portrait.mkdir();
         }
+
         return "上传失败！";
     }
 
