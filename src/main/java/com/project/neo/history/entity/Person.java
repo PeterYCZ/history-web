@@ -12,10 +12,20 @@ public class Person {
     private Integer birthyear;
     private Integer deathyear;
 
-    public Person(String name, Integer birthyear, Integer deathyear) {
+    private String portrait;
+
+    private String lifeStory;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public Person(String name, Integer birthyear, Integer deathyear, String portrait, String lifeStory) {
         this.name = name;
         this.birthyear = birthyear;
         this.deathyear = deathyear;
+        this.portrait = portrait;
+        this.lifeStory = lifeStory;
     }
 
     public String getName() {
@@ -28,5 +38,13 @@ public class Person {
 
     public Integer getDeathyear() {
         return deathyear;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public String getLifeStory() {
+        return lifeStory;
     }
 }

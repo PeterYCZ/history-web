@@ -1,7 +1,6 @@
 package com.project.neo.history.controller;
 
 import com.project.neo.history.entity.Countryman;
-import com.project.neo.history.entity.PersonDetail;
 import com.project.neo.history.service.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

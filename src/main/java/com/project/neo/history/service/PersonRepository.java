@@ -13,5 +13,14 @@ public interface PersonRepository extends Repository<Person, String> {
             + "collect (DISTINCT p) AS partner")
     PersonDetail getDetailsByName(String name);
 
+    @Query("CREATE (person:Person{name: $name," +
+            "birthyear:$birthyear,deathyear:$deathyear,portrait:$portrait,lifeStory:$lifeStory})\n" +
+            " RETURN person")
+    Person inertPerson(String name,Integer birthyear,Integer deathyear,String portrait,String lifeStory);
+
+    @Query("MATCH (husband:Person{name: $husband}),(wife:Person{name: $wife})\n" +
+            "CREATE (husband)-[:PARTNER]->(wife),(wife)-[:PARTNER]->(husband)\n" +
+            "return husband,collect (wife) as partner")
+    PersonDetail createPartner(String husband,String wife);
 
 }

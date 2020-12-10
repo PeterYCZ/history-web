@@ -12,5 +12,4 @@ public interface PlaceRepository extends Repository<Place, String> {
             "RETURN place,collect (p) as countrymanList")
     Countryman getCountrymanList(String name);
 
-
 }
