@@ -1,10 +1,13 @@
 package com.project.neo.history.controller;
 
+import com.project.neo.history.config.StorageProperties;
 import com.project.neo.history.entity.PartnerRelationship;
 import com.project.neo.history.entity.Person;
 import com.project.neo.history.entity.PersonDetail;
+import com.project.neo.history.service.FileSystemStorageService;
 import com.project.neo.history.service.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,9 +17,19 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.UUID;
 
 @RestController
 public class PersonController {
+
+    @Autowired
+    private FileSystemStorageService fileSystemStorageService;
+
+    @Autowired
+    private StorageProperties properties;
 
     @Autowired
     private PersonRepository personRepository;
@@ -30,14 +43,11 @@ public class PersonController {
     public String uploadPortrait(@RequestParam("file") MultipartFile file){
 
         String realName = file.getOriginalFilename();
-        String fileName = realName;
-        String filePath = "./picture/";
-        File portrait = new File(filePath);
-        if(!portrait.exists()) {
-            portrait.mkdir();
-        }
-
-        return "上传失败！";
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String uuid = UUID.randomUUID().toString().substring(0,6);
+        String path = properties.getLocation()+"/"+realName;
+        fileSystemStorageService.store(file);
+        return path;
     }
 
     @PostMapping("/api/v1/insert")
