@@ -12,7 +12,7 @@ public class Person {
     private Integer birthyear;
     private Integer deathyear;
 
-    private String Portrait;
+    private String portrait;
 
     private String lifeStory;
 
@@ -20,24 +20,11 @@ public class Person {
         this.name = name;
     }
 
-    public Person(String name, Integer birthyear, Integer deathyear) {
-        this.name = name;
-        this.birthyear = birthyear;
-        this.deathyear = deathyear;
-    }
-
-    public Person(String name, Integer birthyear, Integer deathyear, String portrait) {
-        this.name = name;
-        this.birthyear = birthyear;
-        this.deathyear = deathyear;
-        Portrait = portrait;
-    }
-
     public Person(String name, Integer birthyear, Integer deathyear, String portrait, String lifeStory) {
         this.name = name;
         this.birthyear = birthyear;
         this.deathyear = deathyear;
-        Portrait = portrait;
+        this.portrait = portrait;
         this.lifeStory = lifeStory;
     }
 
@@ -54,7 +41,7 @@ public class Person {
     }
 
     public String getPortrait() {
-        return Portrait;
+        return portrait;
     }
 
     public String getLifeStory() {
