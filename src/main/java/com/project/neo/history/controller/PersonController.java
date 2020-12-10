@@ -13,7 +13,7 @@ public class PersonController {
     @Autowired
     private PersonRepository personRepository;
 
-    @GetMapping("/api/v1/get/{name}")
+    @GetMapping("/api/v1/getPersonDetails/{name}")
     public PersonDetail getPersonDetails(@PathVariable String name){
         return personRepository.getDetailsByName(name);
     }
