@@ -16,10 +16,6 @@ public class Person {
 
     private String lifeStory;
 
-    public Person(String name) {
-        this.name = name;
-    }
-
     public Person(String name, Integer birthyear, Integer deathyear, String portrait, String lifeStory) {
         this.name = name;
         this.birthyear = birthyear;
