@@ -15,13 +15,16 @@ public class PersonDetail {
 
     private final List<Person> partner;
 
-    public PersonDetail(String name, Integer birthyear, Integer deathyear, String portrait, String lifeStory, List<Person> partner) {
+    private final List<EventDetail> events;
+
+    public PersonDetail(String name, Integer birthyear, Integer deathyear, String portrait, String lifeStory, List<Person> partner,List<EventDetail> events) {
         this.name = name;
         this.birthyear = birthyear;
         this.deathyear = deathyear;
         this.portrait = portrait;
         this.lifeStory = lifeStory;
         this.partner = partner;
+        this.events = events;
     }
 
     public String getName() {

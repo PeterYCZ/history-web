@@ -9,8 +9,10 @@ public interface PersonRepository extends Repository<Person, String> {
 
     @Query("MATCH (person:Person {name: $name})\n"
             + "OPTIONAL MATCH (person)-[:PARTNER]->(p:Person)\n"
+            + "OPTIONAL MATCH (person)-[:Done]->(e:Event)\n"
             + "RETURN person,\n"
-            + "collect (DISTINCT p) AS partner")
+            + "collect (DISTINCT p) AS partner,"
+            + "collect (e) as events")
     PersonDetail getDetailsByName(String name);
 
     @Query("CREATE (person:Person{name: $name," +
