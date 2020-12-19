@@ -18,6 +18,22 @@ public class AdvancedSearchVO {
 
     private List<Event> eventList;
 
+    public String getPersonName() {
+        return personName;
+    }
+
+    public String getPlaceName() {
+        return placeName;
+    }
+
+    public String getTimeRangeName() {
+        return timeRangeName;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
     public List<Event> getEventList() {
         return eventList;
     }
