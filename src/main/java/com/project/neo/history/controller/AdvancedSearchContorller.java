@@ -1,6 +1,7 @@
 package com.project.neo.history.controller;
 
 import com.project.neo.history.entity.AdvancedSearchDTO;
+import com.project.neo.history.entity.AdvancedSearchVO;
 import com.project.neo.history.entity.Event;
 import com.project.neo.history.service.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,40 +19,42 @@ public class AdvancedSearchContorller {
     private EventRepository eventRepository;
 
     @PostMapping("/api/v1/advancedsearch/")
-    public List<Event> listEvents(@RequestBody AdvancedSearchDTO advancedSearchDTO) {
+    public AdvancedSearchVO listEvents(@RequestBody AdvancedSearchDTO advancedSearchDTO) {
         String name = advancedSearchDTO.getEventName();
         String placeName = advancedSearchDTO.getPlaceName();
         String personName = advancedSearchDTO.getPersonName();
         String timeRangeName = advancedSearchDTO.getTimeRangeName();
+        AdvancedSearchVO advancedSearchVO = new AdvancedSearchVO(advancedSearchDTO);
         if(name == null) {
            if(placeName == null) {
-                return eventRepository.findAllByPersonsNameAndTimeQuantumsName(personName,timeRangeName);
+               advancedSearchVO.setEventList(eventRepository.findAllByPersonsNameAndTimeQuantumsName(personName,timeRangeName));
            }else if(personName == null) {
-                return eventRepository.findAllByTimeQuantumsNameAndPlacesName(timeRangeName,placeName);
+               advancedSearchVO.setEventList(eventRepository.findAllByTimeQuantumsNameAndPlacesName(timeRangeName,placeName));
            }else if(timeRangeName == null) {
-                return eventRepository.findAllByPersonsNameAndPlacesName(personName,placeName);
+               advancedSearchVO.setEventList(eventRepository.findAllByPersonsNameAndPlacesName(personName,placeName));
            } else {
-                return eventRepository.findAllByPersonsNameAndPlacesNameAndTimeQuantumsName(personName,placeName,timeRangeName);
+               advancedSearchVO.setEventList(eventRepository.findAllByPersonsNameAndPlacesNameAndTimeQuantumsName(personName,placeName,timeRangeName));
            }
         }else if(placeName == null) {
             if(personName == null) {
-                return eventRepository.findAllByNameAndTimeQuantumsName(name,timeRangeName);
+                advancedSearchVO.setEventList(eventRepository.findAllByNameAndTimeQuantumsName(name,timeRangeName));
             }else if(timeRangeName == null) {
-                return eventRepository.findAllByNameAndPersonsName(name,personName);
+                advancedSearchVO.setEventList(eventRepository.findAllByNameAndPersonsName(name,personName));
             } else {
-                return eventRepository.findAllByNameAndPersonsNameAndTimeQuantumsName (name,personName,timeRangeName);
+                advancedSearchVO.setEventList(eventRepository.findAllByNameAndPersonsNameAndTimeQuantumsName (name,personName,timeRangeName));
             }
         }else if(personName == null) {
             if(timeRangeName == null) {
-                return eventRepository.findAllByNameAndPlacesName(name,placeName);
+                advancedSearchVO.setEventList(eventRepository.findAllByNameAndPlacesName(name,placeName));
             } else {
-                return eventRepository.findAllByNameAndPlacesNameAndTimeQuantumsName(name,placeName,timeRangeName);
+                advancedSearchVO.setEventList(eventRepository.findAllByNameAndPlacesNameAndTimeQuantumsName(name,placeName,timeRangeName));
             }
         }else if(timeRangeName == null) {
-            return eventRepository.findAllByNameAndPlacesNameAndPersonsName(name,placeName,personName);
+            advancedSearchVO.setEventList(eventRepository.findAllByNameAndPlacesNameAndPersonsName(name,placeName,personName));
         }else {
-            return eventRepository.findAllByNameAndPlacesNameAndPersonsNameAndTimeQuantumsName(name,placeName,personName,timeRangeName);
+            advancedSearchVO.setEventList(eventRepository.findAllByNameAndPlacesNameAndPersonsNameAndTimeQuantumsName(name,placeName,personName,timeRangeName));
         }
+        return advancedSearchVO;
     }
 
 }
