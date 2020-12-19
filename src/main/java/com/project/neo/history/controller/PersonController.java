@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -51,7 +50,6 @@ public class PersonController {
     public String uploadPortrait(@RequestParam("file") MultipartFile file){
 
         String realName = file.getOriginalFilename();
-        LocalDateTime localDateTime = LocalDateTime.now();
         String path = properties.getLocation()+"/"+realName;
         fileSystemStorageService.store(file);
         return path;
