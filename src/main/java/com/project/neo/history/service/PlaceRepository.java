@@ -8,8 +8,10 @@ import org.springframework.data.repository.Repository;
 
 public interface PlaceRepository extends Repository<Place, String> {
 
-    @Query("MATCH (p:Person)-[:NATIVEPLACE]->(place:Place{name:$name})\n" +
+    @Query("MATCH (p:Person)-[:1**3]->(place:Place{name:$name})\n" +
             "RETURN place,collect (p) as countrymanList")
     Countryman getCountrymanList(String name);
+
+    Place findAllByName(String name);
 
 }

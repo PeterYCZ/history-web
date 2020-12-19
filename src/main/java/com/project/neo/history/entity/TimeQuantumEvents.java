@@ -1,15 +1,14 @@
 package com.project.neo.history.entity;
 
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
+import java.util.List;
 
-@Node
-public class TimeQuantum {
+public class TimeQuantumEvents {
 
-    @Id
     private String name;
     private Integer endYear;
     private Integer startYear;
+
+    private List<Event> eventList;
 
     public String getName() {
         return name;
@@ -35,4 +34,11 @@ public class TimeQuantum {
         this.startYear = startYear;
     }
 
+    public List<Event> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<Event> eventList) {
+        this.eventList = eventList;
+    }
 }

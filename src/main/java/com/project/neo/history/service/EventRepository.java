@@ -9,4 +9,7 @@ public interface EventRepository extends Repository<Event, String> {
 
     List<Event> findAllByPersonsName(String name);
 
+    List<Event> findAllByTimeQuantumsName(String name);
+
+    List<Event> findAllByPlacesName(String name);
 }

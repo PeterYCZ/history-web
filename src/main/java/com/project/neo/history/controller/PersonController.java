@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 public class PersonController {
@@ -32,11 +33,18 @@ public class PersonController {
     private EventRepository eventRepository;
 
     @GetMapping("/api/v1/getPersonDetails/{name}")
-    public PersonDetail getPersonDetails(@PathVariable String name){
-        PersonDetail personDetail = personRepository.getDetailsByName(name);
-        List<Event> eventList = eventRepository.findAllByPersonsName(name);
-        personDetail.setEvents(eventList);
-        return personDetail;
+    public List<PersonDetail> getPersonDetails(@PathVariable String name){
+        List<PersonDetail> personDetails = personRepository.getDetailsByName(name);
+        for(PersonDetail personDetail : personDetails) {
+            List<Event> eventList = eventRepository.findAllByPersonsName(personDetail.getName());
+            for(Event event : eventList) {
+                List<Person> persons = event.getPersons();
+                persons = persons.stream().filter(x -> x.getName().equals(name) == false).collect(Collectors.toList());
+                event.setPersons(persons);
+            }
+            personDetail.setEvents(eventList);
+        }
+        return personDetails;
     }
 
     @PostMapping("/api/v1/uploadPortrait")
@@ -44,7 +52,6 @@ public class PersonController {
 
         String realName = file.getOriginalFilename();
         LocalDateTime localDateTime = LocalDateTime.now();
-        String uuid = UUID.randomUUID().toString().substring(0,6);
         String path = properties.getLocation()+"/"+realName;
         fileSystemStorageService.store(file);
         return path;

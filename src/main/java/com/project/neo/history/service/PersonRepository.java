@@ -5,16 +5,15 @@ import com.project.neo.history.entity.PersonDetail;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.Repository;
 
+import java.util.List;
+
 public interface PersonRepository extends Repository<Person, String> {
 
     @Query("MATCH (person:Person {name: $name})\n"
             + "OPTIONAL MATCH (person)-[:PARTNER]->(p:Person)\n"
-            + "OPTIONAL MATCH (person)-[:DONE]->(e:Event)\n"
-            + "OPTIONAL MATCH (e)-[:HappenedAt]->(place:Place)\n"
-            + "OPTIONAL MATCH (e)-[:HappenedIn]->(t:TimeQuantum)"
             + "RETURN person,\n"
             + "collect (DISTINCT p) AS partner")
-    PersonDetail getDetailsByName(String name);
+    List<PersonDetail> getDetailsByName(String name);
 
     @Query("CREATE (person:Person{name: $name," +
             "birthyear:$birthyear,deathyear:$deathyear,portrait:$portrait,lifeStory:$lifeStory})\n" +
