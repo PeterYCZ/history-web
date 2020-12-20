@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class EventController {
@@ -70,4 +74,45 @@ public class EventController {
         return timeQuantumRepository.findAll();
     }
 
+    @GetMapping("/api/v1/listPersonDistinctRealname")
+    public List<Person> listPersonDistinctRealname() {
+        List<Person> people = personRepository.findAll();
+        List<Person> personList = new ArrayList<>();
+        Set<String> realNames = new HashSet<>();
+        for(Person person : people){
+            if(realNames.contains(person.getRealname()) == false) {
+                realNames.add(person.getRealname());
+                personList.add(person);
+            }
+        }
+        return personList;
+    }
+
+    @GetMapping("/api/v1/listEventDistinctRealname")
+    public List<Event> listEventDistinctRealname() {
+        List<Event> events = eventRepository.findAll();
+        List<Event> eventList = new ArrayList<>();
+        Set<String> realNames = new HashSet<>();
+        for(Event event : events){
+            if(realNames.contains(event.getRealname()) == false) {
+                realNames.add(event.getRealname());
+                eventList.add(event);
+            }
+        }
+        return eventList;
+    }
+
+    @GetMapping("/api/v1/listPlaceDistinctRealname")
+    public List<Place> listPlaceDistinctRealname() {
+        List<Place> places = placeRepository.findAll();
+        List<Place> placeList = new ArrayList<>();
+        Set<String> realNames = new HashSet<>();
+        for(Place place : places){
+            if(realNames.contains(place.getRealname()) == false) {
+                realNames.add(place.getRealname());
+                placeList.add(place);
+            }
+        }
+        return placeList;
+    }
 }
