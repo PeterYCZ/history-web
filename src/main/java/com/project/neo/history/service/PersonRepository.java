@@ -9,16 +9,16 @@ import java.util.List;
 
 public interface PersonRepository extends Repository<Person, String> {
 
-    @Query("MATCH (person:Person {name: $name})\n"
+    @Query("MATCH (person:Person {realname: $name})\n"
             + "OPTIONAL MATCH (person)-[:PARTNER]->(p:Person)\n"
             + "RETURN person,\n"
             + "collect (DISTINCT p) AS partner")
     List<PersonDetail> getDetailsByName(String name);
 
-    @Query("CREATE (person:Person{name: $name," +
+    @Query("CREATE (person:Person{name: $name, realname: $realName," +
             "birthyear:$birthyear,deathyear:$deathyear,portrait:$portrait,lifeStory:$lifeStory})\n" +
             " RETURN person")
-    Person inertPerson(String name,Integer birthyear,Integer deathyear,String portrait,String lifeStory);
+    Person inertPerson(String name,String realName,Integer birthyear,Integer deathyear,String portrait,String lifeStory);
 
     @Query("MATCH (husband:Person{name: $husband}),(wife:Person{name: $wife})\n" +
             "CREATE (husband)-[:PARTNER]->(wife),(wife)-[:PARTNER]->(husband)\n" +

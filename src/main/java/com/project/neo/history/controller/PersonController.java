@@ -1,23 +1,25 @@
 package com.project.neo.history.controller;
 
 import com.project.neo.history.config.StorageProperties;
-import com.project.neo.history.entity.Event;
-import com.project.neo.history.entity.PartnerRelationship;
-import com.project.neo.history.entity.Person;
-import com.project.neo.history.entity.PersonDetail;
+import com.project.neo.history.entity.*;
 import com.project.neo.history.service.EventRepository;
 import com.project.neo.history.service.FileSystemStorageService;
 import com.project.neo.history.service.PersonRepository;
+import com.project.neo.history.service.RelationshipRepository;
+import com.project.neo.history.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class PersonController {
+
+    private static final SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+
+    @Autowired
+    private EventController eventController;
 
     @Autowired
     private FileSystemStorageService fileSystemStorageService;
@@ -31,19 +33,23 @@ public class PersonController {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private RelationshipRepository relationshipRepository;
+
     @GetMapping("/api/v1/getPersonDetails/{name}")
-    public List<PersonDetail> getPersonDetails(@PathVariable String name){
+    public GraphDataVO getPersonDetails(@PathVariable String name){
+        GraphDataVO graphDataVO = new GraphDataVO();
         List<PersonDetail> personDetails = personRepository.getDetailsByName(name);
         for(PersonDetail personDetail : personDetails) {
             List<Event> eventList = eventRepository.findAllByPersonsName(personDetail.getName());
-            for(Event event : eventList) {
-                List<Person> persons = event.getPersons();
-                persons = persons.stream().filter(x -> x.getName().equals(name) == false).collect(Collectors.toList());
-                event.setPersons(persons);
-            }
             personDetail.setEvents(eventList);
         }
-        return personDetails;
+        for(PersonDetail personDetail : personDetails) {
+            Person personMain = Person.convert(personDetail);
+            graphDataVO.addData(personMain);
+            GraphDataVO.addFromEvent(graphDataVO,personDetail.getEvents());
+        }
+        return graphDataVO;
     }
 
     @PostMapping("/api/v1/uploadPortrait")
@@ -55,14 +61,18 @@ public class PersonController {
         return path;
     }
 
-    @PostMapping("/api/v1/insert")
+    @PostMapping("/api/v1/insertPerson")
     public Person insertPerson(@RequestBody Person person){
-        String name = person.getName();
+        String name = String.valueOf(idWorker.nextId());
+        String realname = person.getName();
         Integer birthyear = person.getBirthyear();
         Integer deathyear = person.getDeathyear();
         String path = person.getPortrait();
         String lifeStory = person.getLifeStory();
-        return personRepository.inertPerson(name,birthyear,deathyear,path,lifeStory);
+        Event event = eventController.insertEvent(new Event("出生",realname +"出生"));
+        person = personRepository.inertPerson(name,realname,birthyear,deathyear,path,lifeStory);
+        relationshipRepository.personToEvent(person.getName(),event.getName());
+        return person;
     }
 
     @PostMapping("/api/v1/create/relationship/")

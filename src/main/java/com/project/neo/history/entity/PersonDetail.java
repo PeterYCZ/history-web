@@ -7,6 +7,8 @@ public class PersonDetail {
 
     private final String name;
 
+    private final String realname;
+
     private final Integer birthyear;
     private final Integer deathyear;
 
@@ -18,8 +20,9 @@ public class PersonDetail {
 
     private List<Event> events = new ArrayList<>();
 
-    public PersonDetail(String name, Integer birthyear, Integer deathyear, String portrait, String lifeStory, List<Person> partner) {
+    public PersonDetail(String name,String realname, Integer birthyear, Integer deathyear, String portrait, String lifeStory, List<Person> partner) {
         this.name = name;
+        this.realname = realname;
         this.birthyear = birthyear;
         this.deathyear = deathyear;
         this.portrait = portrait;
@@ -57,5 +60,9 @@ public class PersonDetail {
 
     public List<Event> getEvents() {
         return events;
+    }
+
+    public String getRealname() {
+        return realname;
     }
 }

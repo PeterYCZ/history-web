@@ -4,16 +4,24 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
 @Node
-public class TimeQuantum {
+public class TimeQuantum implements GraphNode{
 
     @Id
     private String name;
+    private String realname;
     private Integer endYear;
     private Integer startYear;
 
+    @Override
     public String getName() {
         return name;
     }
+
+    @Override
+    public String getRealname() {
+        return realname;
+    }
+
 
     public void setName(String name) {
         this.name = name;
@@ -35,4 +43,7 @@ public class TimeQuantum {
         this.startYear = startYear;
     }
 
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
 }

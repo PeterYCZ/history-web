@@ -10,11 +10,18 @@ public class PlaceEvents {
 
     private final String describe;
 
+    private String realname;
+
     private List<Event> eventList;
 
-    public PlaceEvents(String name, String describe) {
+    public PlaceEvents(String name,String realname, String describe) {
         this.name = name;
+        this.realname = realname;
         this.describe = describe;
+    }
+
+    public String getRealname() {
+        return realname;
     }
 
     public String getName() {

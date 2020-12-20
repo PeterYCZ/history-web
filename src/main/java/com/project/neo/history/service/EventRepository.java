@@ -1,11 +1,18 @@
 package com.project.neo.history.service;
 
 import com.project.neo.history.entity.Event;
+import com.project.neo.history.entity.Place;
+import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
 
 public interface EventRepository extends Repository<Event, String> {
+
+    @Query("CREATE (event:Event{name: $name, realname: $realname," +
+            "describe: $describe})\n" +
+            "RETURN event")
+    Event inertEvent(String name, String realname, String describe);
 
     List<Event> findAllByPersonsName(String name);
 
