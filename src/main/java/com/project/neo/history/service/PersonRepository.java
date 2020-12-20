@@ -25,4 +25,6 @@ public interface PersonRepository extends Repository<Person, String> {
             "return husband,collect (wife) as partner")
     PersonDetail createPartner(String husband,String wife);
 
+    List<Person> findAll();
+
 }

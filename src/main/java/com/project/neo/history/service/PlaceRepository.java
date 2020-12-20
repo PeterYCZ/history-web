@@ -1,6 +1,7 @@
 package com.project.neo.history.service;
 
 import com.project.neo.history.entity.Countryman;
+import com.project.neo.history.entity.Person;
 import com.project.neo.history.entity.Place;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.Repository;
@@ -21,4 +22,5 @@ public interface PlaceRepository extends Repository<Place, String> {
     Place inertPlace(String name, String realname, String describe);
 
 
+    List<Place> findAll();
 }

@@ -1,18 +1,27 @@
 package com.project.neo.history.controller;
 
-import com.project.neo.history.entity.AdvancedSearchDTO;
-import com.project.neo.history.entity.Event;
-import com.project.neo.history.service.EventRepository;
-import com.project.neo.history.service.RelationshipRepository;
+import com.project.neo.history.entity.*;
+import com.project.neo.history.service.*;
 import com.project.neo.history.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.neo4j.core.schema.Relationship;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class EventController {
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private PlaceRepository placeRepository;
+
+    @Autowired
+    private TimeQuantumRepository timeQuantumRepository;
 
     @Autowired
     private EventRepository eventRepository;
@@ -44,6 +53,21 @@ public class EventController {
         }
         result = true;
         return result;
+    }
+
+    @GetMapping("/api/v1/listPerson")
+    public List<Person> listPerson() {
+        return personRepository.findAll();
+    }
+
+    @GetMapping("/api/v1/listPlace")
+    public List<Place> listPlace() {
+        return placeRepository.findAll();
+    }
+
+    @GetMapping("/api/v1/listTime")
+    public List<TimeQuantum> listTimeQuant() {
+        return timeQuantumRepository.findAll();
     }
 
 }
