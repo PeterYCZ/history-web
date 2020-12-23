@@ -12,10 +12,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.List;
 
 @RestController
@@ -67,13 +65,18 @@ public class PersonController {
     }
 
     @GetMapping("/api/v1/getPortrait")
-    public byte[] getPortrait(@Param("path") String path) throws IOException {
+    public void getPortrait(HttpServletResponse response, @Param("path") String path) throws IOException {
 
         File file = new File(path);
         FileInputStream inputStream = new FileInputStream(file);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());
-        return bytes;
+        response.setContentType("image/jpeg");
+        OutputStream out = response.getOutputStream();
+        out.write(bytes);
+        out.flush();
+        //关闭响应输出流
+        out.close();
 
     }
 
