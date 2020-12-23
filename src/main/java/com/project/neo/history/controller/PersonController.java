@@ -66,7 +66,7 @@ public class PersonController {
         return path;
     }
 
-    @GetMapping("/api/v1/getPortrait/")
+    @GetMapping("/api/v1/getPortrait")
     public byte[] getPortrait(@Param("path") String path) throws IOException {
 
         File file = new File(path);
