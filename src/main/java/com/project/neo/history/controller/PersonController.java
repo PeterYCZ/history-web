@@ -8,9 +8,14 @@ import com.project.neo.history.service.PersonRepository;
 import com.project.neo.history.service.RelationshipRepository;
 import com.project.neo.history.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -59,6 +64,17 @@ public class PersonController {
         String path = properties.getLocation()+"/"+realName;
         fileSystemStorageService.store(file);
         return path;
+    }
+
+    @GetMapping("/api/v1/getPortrait/")
+    public byte[] getPortrait(@Param("path") String path) throws IOException {
+
+        File file = new File(path);
+        FileInputStream inputStream = new FileInputStream(file);
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.read(bytes, 0, inputStream.available());
+        return bytes;
+
     }
 
     @PostMapping("/api/v1/insertPerson")

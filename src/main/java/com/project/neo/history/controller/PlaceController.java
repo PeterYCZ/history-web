@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 public class PlaceController {
 
-    private static final SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+    private static final SnowflakeIdWorker idWorker = new SnowflakeIdWorker(2, 0);
 
     @Autowired
     private PlaceRepository placeRepository;

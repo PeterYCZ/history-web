@@ -33,7 +33,7 @@ public class EventController {
     @Autowired
     private RelationshipRepository relationshipRepository;
 
-    private static final SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+    private static final SnowflakeIdWorker idWorker = new SnowflakeIdWorker(1, 0);
 
     @PostMapping("/api/v1/insertEvent")
     public Event insertEvent(@RequestBody Event event){
