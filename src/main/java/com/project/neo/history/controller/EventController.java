@@ -74,6 +74,11 @@ public class EventController {
         return timeQuantumRepository.findAll();
     }
 
+    @GetMapping("/api/v1/listEvent")
+    public List<Event> listEvent() {
+        return eventRepository.findAll();
+    }
+
     @GetMapping("/api/v1/listPersonDistinctRealname")
     public List<Person> listPersonDistinctRealname() {
         List<Person> people = personRepository.findAll();
@@ -115,4 +120,5 @@ public class EventController {
         }
         return placeList;
     }
+
 }
