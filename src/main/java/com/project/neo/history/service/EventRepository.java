@@ -17,33 +17,37 @@ public interface EventRepository extends Repository<Event, String> {
             "RETURN event")
     Event inertEvent(String name, String realname, String describe);
 
-    List<Event> findAllByPersonsName(String name);
+    List<Event> findAllByPersonsName (String name);
+
+    List<Event> findAllByPersonsRealname (String name);
 
     List<Event> findAllByTimeQuantumsName(String name);
 
     List<Event> findAllByPlacesName(String name);
 
-    List<Event> findAllByNameAndPlacesName(String name,String placeName);
+    List<Event> findAllByPlacesRealname(String name);
 
-    List<Event> findAllByNameAndPersonsName(String name,String placeName);
+    List<Event> findAllByRealnameAndPlacesRealname(String name,String placeName);
 
-    List<Event> findAllByNameAndTimeQuantumsName(String name,String placeName);
+    List<Event> findAllByRealnameAndPersonsRealname(String name,String placeName);
 
-    List<Event> findAllByPersonsNameAndPlacesName(String personName,String placeName);
+    List<Event> findAllByRealnameAndTimeQuantumsName(String name,String placeName);
 
-    List<Event> findAllByPersonsNameAndTimeQuantumsName(String personName,String timeQuantumsName);
+    List<Event> findAllByPersonsRealnameAndPlacesRealname(String personName,String placeName);
 
-    List<Event> findAllByTimeQuantumsNameAndPlacesName(String timeQuantumsName,String placeName);
+    List<Event> findAllByPersonsRealnameAndTimeQuantumsName(String personName,String timeQuantumsName);
 
-    List<Event> findAllByNameAndPlacesNameAndPersonsName(String name,String placeName,String personName);
+    List<Event> findAllByTimeQuantumsNameAndPlacesRealname(String timeQuantumsName,String placeName);
 
-    List<Event> findAllByNameAndPlacesNameAndTimeQuantumsName(String name,String placeName,String timeQuantumsName);
+    List<Event> findAllByRealnameAndPlacesRealnameAndPersonsRealname(String name,String placeName,String personName);
 
-    List<Event> findAllByNameAndPersonsNameAndTimeQuantumsName(String name,String personName,String timeQuantumsName);
+    List<Event> findAllByRealnameAndPlacesRealnameAndTimeQuantumsName(String name,String placeName,String timeQuantumsName);
 
-    List<Event> findAllByPersonsNameAndPlacesNameAndTimeQuantumsName(String personName,String placeName,String timeQuantumsName);
+    List<Event> findAllByRealnameAndPersonsRealnameAndTimeQuantumsName(String name,String personName,String timeQuantumsName);
 
-    List<Event> findAllByNameAndPlacesNameAndPersonsNameAndTimeQuantumsName(String name,String placeName,String personName,String timeQuantumsName);
+    List<Event> findAllByPersonsRealnameAndPlacesRealnameAndTimeQuantumsName(String personName,String placeName,String timeQuantumsName);
+
+    List<Event> findAllByRealnameAndPlacesRealnameAndPersonsRealnameAndTimeQuantumsName(String name,String placeName,String personName,String timeQuantumsName);
 
 
 }

@@ -13,39 +13,39 @@ public class AdvancedSearchService {
     private EventRepository eventRepository;
 
     public AdvancedSearchVO listEvents(AdvancedSearchDTO advancedSearchDTO) {
-        String name = advancedSearchDTO.getEventName();
-        String placeName = advancedSearchDTO.getPlaceName();
-        String personName = advancedSearchDTO.getPersonName();
-        String timeRangeName = advancedSearchDTO.getTimeRangeName();
+        String name = advancedSearchDTO.getEventName().equals("")?null:advancedSearchDTO.getEventName();
+        String placeName = advancedSearchDTO.getPlaceName().equals("")?null:advancedSearchDTO.getPlaceName();
+        String personName = advancedSearchDTO.getPersonName().equals("")?null:advancedSearchDTO.getPersonName();
+        String timeRangeName = advancedSearchDTO.getTimeRangeName().equals("")?null:advancedSearchDTO.getTimeRangeName();
         AdvancedSearchVO advancedSearchVO = new AdvancedSearchVO(advancedSearchDTO);
         if(name == null) {
             if(placeName == null) {
-                advancedSearchVO.setEventList(eventRepository.findAllByPersonsNameAndTimeQuantumsName(personName,timeRangeName));
+                advancedSearchVO.setEventList(eventRepository.findAllByPersonsRealnameAndTimeQuantumsName(personName,timeRangeName));
             }else if(personName == null) {
-                advancedSearchVO.setEventList(eventRepository.findAllByTimeQuantumsNameAndPlacesName(timeRangeName,placeName));
+                advancedSearchVO.setEventList(eventRepository.findAllByTimeQuantumsNameAndPlacesRealname(timeRangeName,placeName));
             }else if(timeRangeName == null) {
-                advancedSearchVO.setEventList(eventRepository.findAllByPersonsNameAndPlacesName(personName,placeName));
+                advancedSearchVO.setEventList(eventRepository.findAllByPersonsRealnameAndPlacesRealname(personName,placeName));
             } else {
-                advancedSearchVO.setEventList(eventRepository.findAllByPersonsNameAndPlacesNameAndTimeQuantumsName(personName,placeName,timeRangeName));
+                advancedSearchVO.setEventList(eventRepository.findAllByPersonsRealnameAndPlacesRealnameAndTimeQuantumsName(personName,placeName,timeRangeName));
             }
         }else if(placeName == null) {
             if(personName == null) {
-                advancedSearchVO.setEventList(eventRepository.findAllByNameAndTimeQuantumsName(name,timeRangeName));
+                advancedSearchVO.setEventList(eventRepository.findAllByRealnameAndTimeQuantumsName(name,timeRangeName));
             }else if(timeRangeName == null) {
-                advancedSearchVO.setEventList(eventRepository.findAllByNameAndPersonsName(name,personName));
+                advancedSearchVO.setEventList(eventRepository.findAllByRealnameAndPersonsRealname(name,personName));
             } else {
-                advancedSearchVO.setEventList(eventRepository.findAllByNameAndPersonsNameAndTimeQuantumsName (name,personName,timeRangeName));
+                advancedSearchVO.setEventList(eventRepository.findAllByRealnameAndPersonsRealnameAndTimeQuantumsName (name,personName,timeRangeName));
             }
         }else if(personName == null) {
             if(timeRangeName == null) {
-                advancedSearchVO.setEventList(eventRepository.findAllByNameAndPlacesName(name,placeName));
+                advancedSearchVO.setEventList(eventRepository.findAllByRealnameAndPlacesRealname(name,placeName));
             } else {
-                advancedSearchVO.setEventList(eventRepository.findAllByNameAndPlacesNameAndTimeQuantumsName(name,placeName,timeRangeName));
+                advancedSearchVO.setEventList(eventRepository.findAllByRealnameAndPlacesRealnameAndTimeQuantumsName(name,placeName,timeRangeName));
             }
         }else if(timeRangeName == null) {
-            advancedSearchVO.setEventList(eventRepository.findAllByNameAndPlacesNameAndPersonsName(name,placeName,personName));
+            advancedSearchVO.setEventList(eventRepository.findAllByRealnameAndPlacesRealnameAndPersonsRealname(name,placeName,personName));
         }else {
-            advancedSearchVO.setEventList(eventRepository.findAllByNameAndPlacesNameAndPersonsNameAndTimeQuantumsName(name,placeName,personName,timeRangeName));
+            advancedSearchVO.setEventList(eventRepository.findAllByRealnameAndPlacesRealnameAndPersonsRealnameAndTimeQuantumsName(name,placeName,personName,timeRangeName));
         }
         return advancedSearchVO;
     }
