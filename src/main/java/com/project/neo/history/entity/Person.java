@@ -17,7 +17,6 @@ public class Person implements GraphNode{
 
     private String portrait;
 
-    @JsonProperty(value = "describe")
     private String lifeStory;
 
     public Person(String name,String realname, Integer birthyear, Integer deathyear, String portrait, String lifeStory) {
